@@ -89,3 +89,11 @@ crashlytics-build.properties
 
 # Mac file setting
 .DS_Store
+
+###################################
+# HATHORA
+###################################
+# Ignore other Unity projects (We're only work on 2D Space Shooter)
+./Basic/ClientDriven
+./Basic/DynamicAddressablesNetworkPrefabs
+./Invaders
