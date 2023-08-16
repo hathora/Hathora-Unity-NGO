@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using Hathora.Cloud.Sdk.Api;
 using Hathora.Cloud.Sdk.Client;
 using Hathora.Cloud.Sdk.Model;
-using Hathora.Core.Scripts.Runtime.Common.Utils;
+using Hathora.Core.Scripts.Runtime.Common.Models;
 using Hathora.Core.Scripts.Runtime.Server.Models;
 using UnityEngine;
 
 namespace Hathora.Core.Scripts.Runtime.Server.ApiWrapper
 {
-    public class HathoraServerDeployApi : HathoraServerApiBase
+    public class HathoraServerDeployApi : HathoraServerApiWrapperBase
     {
         private readonly DeploymentV1Api deployApi;
         private HathoraDeployOpts deployOpts => HathoraServerConfig.HathoraDeployOpts;
@@ -54,13 +54,16 @@ namespace Hathora.Core.Scripts.Runtime.Server.ApiWrapper
             DeploymentConfig deployConfig = null;
             try
             {
+                // Hathora SDK's TransportType enum's index starts at 1: But so does deployOpts to match
+                TransportType selectedTransportType = deployOpts.SelectedTransportType;
+                
                 deployConfig = new DeploymentConfig(
                     parseEnvFromConfig() ?? new List<DeploymentConfigEnvInner>(),
                     deployOpts.RoomsPerProcess, 
                     deployOpts.SelectedPlanName, 
                     extraContainerPorts,
-                    deployOpts.ContainerPortWrapper.TransportType,
-                    deployOpts.ContainerPortWrapper.PortNumber
+                    selectedTransportType,
+                    deployOpts. ContainerPortWrapper.PortNumber 
                 );
                 
                 Debug.Log("[HathoraServerDeploy.CreateDeploymentAsync] " +
@@ -83,7 +86,7 @@ namespace Hathora.Core.Scripts.Runtime.Server.ApiWrapper
             }
             catch (ApiException apiErr)
             {
-                HandleServerApiException(
+                HandleApiException(
                     nameof(HathoraServerDeployApi),
                     nameof(CreateDeploymentAsync), 
                     apiErr);
@@ -111,7 +114,7 @@ namespace Hathora.Core.Scripts.Runtime.Server.ApiWrapper
             }
             catch (ApiException apiErr)
             {
-                HandleServerApiException(
+                HandleApiException(
                     nameof(HathoraServerDeployApi),
                     nameof(GetDeploymentsAsync), 
                     apiErr);

@@ -97,3 +97,6 @@ crashlytics-build.properties
 ./Basic/ClientDriven
 ./Basic/DynamicAddressablesNetworkPrefabs
 ./Invaders
+Basic/2DSpaceShooter/.hathora/Hathora-Unity-LinuxServer.x86_64.tar.gz
+Basic/2DSpaceShooter/Build-Server
+Basic/2DSpaceShooter/Build-Client
